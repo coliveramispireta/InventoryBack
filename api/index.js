@@ -48,12 +48,12 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/api/usuario', usuarioRoute)
-app.use('/api/categoria', categoriaRoute)
-app.use('/api/stock', stockRoute)
-app.use('/api/proveedor', proveedorRoute)
-app.use('/api/cliente', clienteRoute)
-app.use('/api/factura', facturaRoute)
+// app.use('/api/usuario', usuarioRoute)
+// app.use('/api/categoria', categoriaRoute)
+// app.use('/api/stock', stockRoute)
+// app.use('/api/proveedor', proveedorRoute)
+// app.use('/api/cliente', clienteRoute)
+// app.use('/api/factura', facturaRoute)
 
 
 
