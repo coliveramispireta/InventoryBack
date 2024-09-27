@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import cors from 'cors'
 
 // Conección a la BBDD
-import { coneccionDB } from "../config/db.js";
+import { coneccionDB } from "./config/db.js";
 
 // Importación de rutas
 import categoriaRoute from "../routes/categoriaRoute.js"
