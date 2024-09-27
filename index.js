@@ -7,12 +7,12 @@ import cors from 'cors'
 import { coneccionDB } from "./config/db.js";
 
 // Importación de rutas
-import categoriaRoute from "../routes/categoriaRoute.js"
-import stockRoute from "../routes/stockRoute.js"
-import proveedorRoute from "../routes/proveedorRoute.js"
-import clienteRoute from "../routes/clienteRoute.js"
-import facturaRoute from "../routes/facturaRoute.js"
-import usuarioRoute from "../routes/usuarioRoute.js"
+import categoriaRoute from "./routes/categoriaRoute.js"
+import stockRoute from "./routes/stockRoute.js"
+import proveedorRoute from "./routes/proveedorRoute.js"
+import clienteRoute from "./routes/clienteRoute.js"
+import facturaRoute from "./routes/facturaRoute.js"
+import usuarioRoute from "./routes/usuarioRoute.js"
 
 
 
@@ -48,12 +48,12 @@ app.get('/', (req, res) => {
 })
 
 
-// app.use('/api/usuario', usuarioRoute)
-// app.use('/api/categoria', categoriaRoute)
-// app.use('/api/stock', stockRoute)
-// app.use('/api/proveedor', proveedorRoute)
-// app.use('/api/cliente', clienteRoute)
-// app.use('/api/factura', facturaRoute)
+app.use('/api/usuario', usuarioRoute)
+app.use('/api/categoria', categoriaRoute)
+app.use('/api/stock', stockRoute)
+app.use('/api/proveedor', proveedorRoute)
+app.use('/api/cliente', clienteRoute)
+app.use('/api/factura', facturaRoute)
 
 
 
@@ -62,5 +62,3 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
     console.log(`Server ready on port ${PORT}`);
 })
-
-module.exports = app
