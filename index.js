@@ -43,8 +43,8 @@ app.use(cors());
 // Rutas
 
 app.get('/', (req, res) => {
-    console.log('EN SERVICIO...');
-    res.send('EN SERVICIO...')
+    console.log('Servidor escuchando desde Vercel...');
+    res.send('Servidor escuchando desde Vercel...')
 })
 
 
@@ -57,8 +57,10 @@ app.use('/api/factura', facturaRoute)
 
 
 
-const PORT = process.env.PORT || 4000
+//const PORT = process.env.PORT || 4000
 // Lanzamiento del servidor
-app.listen(PORT, () => {
-    console.log('CONECTANDO...');
-})
+// app.listen(PORT, () => {
+//     console.log('SERVER ESCUCHANDO...');
+// })
+
+module.exports = app
