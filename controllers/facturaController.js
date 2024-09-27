@@ -146,7 +146,7 @@ export const actualizarFactura = async (req, res) => {
     }, new Decimal(0));
 
     // Iva
-    const iva = subtotal.times(0.12);
+    const iva = subtotal.times(0.18);
 
     // Total a pagar
     const total = subtotal.minus(descuento).plus(iva);

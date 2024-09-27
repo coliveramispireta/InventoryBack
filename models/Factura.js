@@ -35,11 +35,11 @@ const FacturaSchema = mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: moment().tz('America/Guayaquil').toDate()
+        default: moment().tz('America/Lima').toDate()
     },
     updatedAt: {
         type: Date,
-        default: moment().tz('America/Guayaquil').toDate()
+        default: moment().tz('America/Lima').toDate()
     }
 }, { timestamps: true })
 
