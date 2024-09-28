@@ -8,9 +8,10 @@ export const coneccionDB = async () => {
         })
 
         const url = `${connection.connection.host}: ${connection.connection.port}`
-        console.log(`Conexión establecida`);
+        console.log(`Conexión a la BD establecida..`);
     } catch (error) {
-        console.log(error.message);
+        const msg = error?.message || 'Error en la conexión a la BD';
+        console.log(msg);
         process.exit(1)
     }
 }
