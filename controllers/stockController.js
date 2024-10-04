@@ -48,12 +48,14 @@ export const actualizarStock = async (req, res) => {
 
         stock.nombre = req.body.nombre || stock.nombre
         stock.cantidad = req.body.cantidad || stock.cantidad
+        stock.precioCosto = req.body.precioCosto || stock.precioCosto
         stock.precioUnitario = req.body.precioUnitario || stock.precioUnitario
         stock.codigo = req.body.codigo || stock.codigo
         stock.descuento = req.body.descuento || stock.descuento
         stock.proveedor = req.body.proveedor !== undefined ? req.body.proveedor : null;
         stock.categoria = req.body.categoria !== undefined ? req.body.categoria : null;
         stock.descripcion = req.body.descripcion || stock.descripcion
+        stock.insumo = req.body.insumo || stock.insumo
         stock.estado = req.body.estado || stock.estado
 
         stock.save()

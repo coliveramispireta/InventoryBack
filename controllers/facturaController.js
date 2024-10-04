@@ -24,11 +24,21 @@ export const listarVentas = async (req, res) => {
     const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
 
-    const totalVentasDia = await calcularTotalVentas(startOfDay, endOfDay);
-    const totalVentasMes = await calcularTotalVentas(startOfMonth, endOfMonth);
-    const totalVentasMesPasado = await calcularTotalVentas(lastMonthStart, lastMonthEnd);
+    const totalVentasDia = await calcularTotalVentas(startOfDay, endOfDay, true);
+    const totalVentasMes = await calcularTotalVentas(startOfMonth, endOfMonth, true);
+    const totalVentasMesPasado = await calcularTotalVentas(lastMonthStart, lastMonthEnd, true);
 
-    return res.status(200).json({ totalVentasDia, totalVentasMes, totalVentasMesPasado });
+    const totalGastosDia = await calcularTotalGastos(startOfDay, endOfDay, true);
+    const totalGastosMes = await calcularTotalGastos(startOfMonth, endOfMonth, true);
+    const totalGastosMesPasado = await calcularTotalGastos(lastMonthStart, lastMonthEnd, true);
+
+    const totalGananciasDia = totalVentasDia - totalGastosDia;
+    const totalGananciasMes = totalVentasMes - totalGastosMes;
+    const totalGananciasMesPasado = totalVentasMesPasado - totalGastosMesPasado;
+
+    
+
+    return res.status(200).json({ totalVentasDia, totalVentasMes, totalVentasMesPasado,totalGastosDia, totalGastosMes, totalGastosMesPasado, totalGananciasDia, totalGananciasMes, totalGananciasMesPasado });
 }
 
 export const listarFactura = async (req, res) => {
@@ -58,8 +68,8 @@ export const listarFactura = async (req, res) => {
 
 export const ingresarFactura = async (req, res) => {
 
-    const { cabecera, cliente, cuerpo } = req.body
-
+    const { tipoOrden, cabecera, cliente, cuerpo } = req.body
+   
     // Extraemos el valor 'total' y 'cantidadProducto' del producto que se va a comprar
     const productos = await Promise.all(
         cuerpo.map(c => {
@@ -93,6 +103,7 @@ export const ingresarFactura = async (req, res) => {
     try {
         const factura = new Factura();
         factura.cabecera = cabecera
+        factura.tipoOrden  = tipoOrden 
         factura.numeroFactura = uuidv4()
         factura.cliente = cliente
         factura.cuerpo = cuerpo
@@ -112,7 +123,7 @@ export const ingresarFactura = async (req, res) => {
 
 export const actualizarFactura = async (req, res) => {
 
-    const { cabecera, cliente, cuerpo } = req.body
+    const { tipoOrden, cabecera, cliente, cuerpo } = req.body
     const { id } = req.params
 
     const factura = await Factura.findById(id)
@@ -154,6 +165,7 @@ export const actualizarFactura = async (req, res) => {
     try {
 
         factura.cabecera = cabecera || factura.cabecera
+        factura.tipoOrden  = tipoOrden || factura.tipoOrden
         factura.numeroFactura = factura.numeroFactura
         factura.cliente = cliente || factura.cliente
         factura.cuerpo = cuerpo || factura.cuerpo
@@ -476,10 +488,21 @@ export const devolverStock = async (req, res) => {
 }
 
 // OTRAS FUNCIONES
-const calcularTotalVentas = async (startDate, endDate) => {
+const calcularTotalVentas = async (startDate, endDate, tipoOrden) => {
     const facturas = await Factura.find({
-        createdAt: { $gte: startDate, $lte: endDate }
+        createdAt: { $gte: startDate, $lte: endDate },
+        tipoOrden: tipoOrden
     }).select('total');
 
     return facturas.reduce((total, factura) => total + Number(factura.total), 0);
 };
+
+const calcularTotalGastos = async (startDate, endDate, insumo) => {
+    const stockItems = await Stock.find({
+        createdAt: { $gte: startDate, $lte: endDate },
+        insumo: insumo
+    }).select('precioCosto');
+
+    return stockItems.reduce((total, stock) => total + parseFloat(stock.precioCosto.toString()), 0);
+};
+

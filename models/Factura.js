@@ -7,6 +7,10 @@ const FacturaSchema = mongoose.Schema({
         ref: 'CabeceraFactura',
         required: true
     },
+    tipoOrden : {
+        type: Boolean,
+        required: true
+    },
     numeroFactura: {
         type: String
     },

@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import moment from 'moment-timezone';
 
 const StockSchema = mongoose.Schema({
     nombre: {
@@ -8,6 +9,10 @@ const StockSchema = mongoose.Schema({
     },
     cantidad: {
         type: Number,
+        required: true
+    },
+    precioCosto: {
+        type: mongoose.Decimal128,
         required: true
     },
     precioUnitario: {
@@ -29,6 +34,10 @@ const StockSchema = mongoose.Schema({
         ref: 'Categoria',
         required: false
     },
+    insumo: {
+        type: Boolean,
+        required: true
+    },
     descripcion: {
         type: String,
         trim: true,
@@ -37,6 +46,14 @@ const StockSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
+    createdAt: {
+        type: Date,
+        default: moment().tz('America/Lima').toDate()
+    },
+    updatedAt: {
+        type: Date,
+        default: moment().tz('America/Lima').toDate()
+    }
 }, { timestamps: true })
 
 export const Stock = mongoose.model('Stock', StockSchema)
